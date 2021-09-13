@@ -3,14 +3,18 @@ extends Area2D
 signal hit
 
 export(int) var speed: int = 400
-var screen_size: Vector2
+onready var screen_size: Vector2 = get_viewport_rect().size
 
 func _ready() -> void:
-	screen_size = get_viewport_rect().size
-	self.position = Vector2(screen_size.x / 2, screen_size.y / 2)
+	# posição inicial do jogador será no meio da tela.
+	position = Vector2(screen_size.x / 2, screen_size.y / 2)
+	connect_signals_to_player()
+	hide()
+
 
 func _process(delta) -> void:
 	move_player(delta)
+
 
 func move_player(delta: float) -> void:
 	var velocity = Vector2.ZERO
@@ -31,15 +35,15 @@ func move_player(delta: float) -> void:
 		$PlayerAnimatedSprite.stop()
 	
 	# selecionando qual animação irá ser usada para a movimentação.
-	_select_animation(velocity)
+	select_animation(velocity)
 	
-	self.position +=  velocity * delta
+	position +=  velocity * delta
 	# mantendo a posição do jogador entre os limites da tela.
-	self.position.x = clamp(self.position.x, 0, screen_size.x)
-	self.position.y = clamp(self.position.y, 0, screen_size.y)
+	position.x = clamp(position.x, 0, screen_size.x)
+	position.y = clamp(position.y, 0, screen_size.y)
 
 
-func _select_animation(velocity: Vector2) -> void:
+func select_animation(velocity: Vector2) -> void:
 
 	# caso em que o jogador está se movendo apenas na horizontal.
 	if velocity.x != 0 and velocity.y == 0:
@@ -56,3 +60,21 @@ func _select_animation(velocity: Vector2) -> void:
 		$PlayerAnimatedSprite.animation = "walk"
 		$PlayerAnimatedSprite.flip_v = velocity.y > 0
 		$PlayerAnimatedSprite.flip_h = velocity.x < 0
+
+
+func start(start_pos: Vector2):
+	position = start_pos
+	show() # deixando o jogador visível novamente.
+	$CollisionShape2D.disabled = false # reativando a HitBox do jogador.
+
+
+func connect_signals_to_player():
+	# conectando o jogador ao sinal body_entered, sinal usado para quando
+	# um inimigo entrar em contato com o joador.
+	connect("body_entered", self, "_on_Player_body_entered")
+
+
+func _on_Player_body_entered(body: Node) -> void:
+	hide() # o jogador terá morrido, então não deverá ser visível.
+	emit_signal("hit") # emitindo o sinal de que o jogador foi atingido.
+	$PlayerHitBox.set_deferred("disabled", true) # desativando a HitBox do jogador.
