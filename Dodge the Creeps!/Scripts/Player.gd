@@ -6,9 +6,6 @@ export(int) var speed: int = 400
 onready var screen_size: Vector2 = get_viewport_rect().size
 
 func _ready() -> void:
-	# posição inicial do jogador será no meio da tela.
-	position = Vector2(screen_size.x / 2, screen_size.y / 2)
-	connect_signals_to_player()
 	hide()
 
 
@@ -65,16 +62,10 @@ func select_animation(velocity: Vector2) -> void:
 func start(start_pos: Vector2):
 	position = start_pos
 	show() # deixando o jogador visível novamente.
-	$CollisionShape2D.disabled = false # reativando a HitBox do jogador.
+	$PlayerHitBox.disabled = false # reativando a HitBox do jogador.
 
 
-func connect_signals_to_player():
-	# conectando o jogador ao sinal body_entered, sinal usado para quando
-	# um inimigo entrar em contato com o joador.
-	connect("body_entered", self, "_on_Player_body_entered")
-
-
-func _on_Player_body_entered(body: Node) -> void:
+func _on_Player_body_entered(_body: Node) -> void:
 	hide() # o jogador terá morrido, então não deverá ser visível.
 	emit_signal("hit") # emitindo o sinal de que o jogador foi atingido.
 	$PlayerHitBox.set_deferred("disabled", true) # desativando a HitBox do jogador.

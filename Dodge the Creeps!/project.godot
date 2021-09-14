@@ -10,7 +10,8 @@ config_version=4
 
 [application]
 
-config/name="projeto02"
+config/name="Dodge the Creeps!"
+run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://icon.png"
 
 [display]
