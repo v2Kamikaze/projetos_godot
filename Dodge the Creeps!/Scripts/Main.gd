@@ -13,17 +13,22 @@ func new_game():
 	$StartTimer.start()
 	$HUD.update_score(score)
 	$HUD.show_message("Prepare-se")
+	$GameMusic.play()
+	$GameOverMusic.stop()
 
 
 func game_over():
 	# ao ser atingido por um Mob, o ScoreTimer deve parar para que não seja
 	# incrementada a pontuação do jogador, e MobTimer deve parar para que os
 	# Mobs não sejam mais instanciados, uma mensagem de fim de jogo deve
-	# aparecer e todos os Mobs devem ser removidos da cena.
+	# aparecer e todos os Mobs devem ser removidos da cena e a música do jogo
+	# deve parar.
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 	$HUD.show_game_over()
 	get_tree().call_group("mobs_group", "queue_free")
+	$GameMusic.stop()
+	$GameOverMusic.play()
 
 
 func _on_Player_hit():
