@@ -8,12 +8,12 @@ func _ready():
 
 
 func new_game():
-	score = 0
-	$Player.start($StartPosition.position)
-	$StartTimer.start()
-	$HUD.update_score(score)
+	score = 0 # resetando o score.
+	$Player.start($StartPosition.position) # resetando a posição do jogador.
+	$StartTimer.start() # iniciando o timer para começar a surgir Mobs.
+	$HUD.update_score(score) # atualizando no HUD o score.
 	$HUD.show_message("Prepare-se")
-	$GameMusic.play()
+	$GameMusic.play() # iniciando a música de fundo.
 	$GameOverMusic.stop()
 
 
@@ -34,6 +34,10 @@ func game_over():
 func _on_Player_hit():
 	# se o jogador entrar em contato com algum Mob, é fim de jogo.
 	game_over()
+
+
+func _on_HUD_start_game():
+	new_game()
 
 
 func _on_MobTimer_timeout():
@@ -76,7 +80,3 @@ func _on_StartTimer_timeout():
 	# Mobs e o ScoreTimer deve iniciar para incrementar a pontuação.
 	$MobTimer.start()
 	$ScoreTimer.start()
-
-
-func _on_HUD_start_game():
-	new_game()

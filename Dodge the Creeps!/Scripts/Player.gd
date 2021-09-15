@@ -3,7 +3,10 @@ extends Area2D
 signal hit
 
 export(int) var speed: int = 400
+
 onready var screen_size: Vector2 = get_viewport_rect().size
+
+var target: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	hide()
@@ -13,16 +16,20 @@ func _process(delta) -> void:
 	move_player(delta)
 
 
+func _input(event: InputEvent):
+	# Atualizando a posição para onde o jogador deve se mover toda vez que
+	# tiver um evento de mouse ou touch.
+	if event is InputEventScreenTouch and event.is_pressed():
+		target = event.position
+
+
 func move_player(delta: float) -> void:
 	var velocity = Vector2.ZERO
-	if Input.is_action_pressed("ui_right"):
-		velocity.x += 1
-	if Input.is_action_pressed("ui_left"):
-		velocity.x -= 1
-	if Input.is_action_pressed("ui_down"):
-		velocity.y += 1
-	if Input.is_action_pressed("ui_up"):
-		velocity.y -= 1
+	# enquanto a distância entre a posição atual do jogador e a posição 
+	# alvo atual for maior que 10 unidades, o jogador irá se movimentar 
+	# até a posição alvo.
+	if position.distance_to(target) > 10:
+		velocity = target - position
 	
 	# normalizando o vetor apenas se ele tiver comprimento maior que 0.
 	if velocity.length() > 0: 
@@ -41,22 +48,14 @@ func move_player(delta: float) -> void:
 
 
 func select_animation(velocity: Vector2) -> void:
-
-	# caso em que o jogador está se movendo apenas na horizontal.
-	if velocity.x != 0 and velocity.y == 0:
+	# mudando a animação de acordo com a direção que o personagem tomar.
+	if velocity.x != 0:
 		$PlayerAnimatedSprite.animation = "walk"
+		$PlayerAnimatedSprite.flip_v = false
 		$PlayerAnimatedSprite.flip_h = velocity.x < 0
-
-	# caso em que o jogador está se movendo apenas na vertical.
-	if velocity.x == 0 and velocity.y != 0:
+	elif velocity.y != 0:
 		$PlayerAnimatedSprite.animation = "up"
 		$PlayerAnimatedSprite.flip_v = velocity.y > 0
-
-	# caso em que o jogador está se movendo na horizontal e vertical.
-	if velocity.x != 0 and velocity.y != 0:
-		$PlayerAnimatedSprite.animation = "walk"
-		$PlayerAnimatedSprite.flip_v = velocity.y > 0
-		$PlayerAnimatedSprite.flip_h = velocity.x < 0
 
 
 func start(start_pos: Vector2):
@@ -68,4 +67,7 @@ func start(start_pos: Vector2):
 func _on_Player_body_entered(_body: Node) -> void:
 	hide() # o jogador terá morrido, então não deverá ser visível.
 	emit_signal("hit") # emitindo o sinal de que o jogador foi atingido.
-	$PlayerHitBox.set_deferred("disabled", true) # desativando a HitBox do jogador.
+	
+	# desativando a HitBox do jogador após o passo de física atual 
+	# para que não ocorra um erro.
+	$PlayerHitBox.set_deferred("disabled", true) 

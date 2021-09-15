@@ -49,11 +49,11 @@ rotation = -3.04521e-08
 
 [node name="GameMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
-volume_db = -35.0
+volume_db = -20.0
 
 [node name="GameOverMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
-volume_db = -35.0
+volume_db = -20.0
 
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
