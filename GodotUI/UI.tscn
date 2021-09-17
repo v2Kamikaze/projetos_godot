@@ -1,0 +1,82 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Assets/godette.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Button - PS Triangle 2.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Button - PS Triangle 1.png" type="Texture" id=3]
+[ext_resource path="res://Assets/BarBorder.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Heart.png" type="Texture" id=5]
+[ext_resource path="res://Assets/fill.png" type="Texture" id=6]
+[ext_resource path="res://UI.gd" type="Script" id=8]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 1 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureButton" type="TextureButton" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -152.0
+margin_top = -131.0
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 2 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureProgress" type="TextureProgress" parent="."]
+margin_left = 40.0
+margin_top = 16.0
+margin_right = 432.0
+margin_bottom = 62.0
+texture_over = ExtResource( 4 )
+texture_progress = ExtResource( 6 )
+nine_patch_stretch = true
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="TextureProgress"]
+margin_left = -33.9587
+margin_top = -11.5305
+margin_right = 43.0413
+margin_bottom = 57.4695
+texture = ExtResource( 5 )
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.3
+
+[node name="Label" type="Label" parent="."]
+self_modulate = Color( 0.054902, 0.172549, 0.937255, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -48.0
+margin_top = 16.0
+margin_right = 80.0
+margin_bottom = 64.0
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
