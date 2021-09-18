@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Button - PS Triangle White 2.png-fcd3cbc992cf649c716bf4d1c12068ed.stex"
+path="res://.import/label_options.png-542772a020a1899fc2bda9b94d1d29f0.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Button - PS Triangle White 2.png"
-dest_files=[ "res://.import/Button - PS Triangle White 2.png-fcd3cbc992cf649c716bf4d1c12068ed.stex" ]
+source_file="res://Sprites/label_options.png"
+dest_files=[ "res://.import/label_options.png-542772a020a1899fc2bda9b94d1d29f0.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
